@@ -10,9 +10,9 @@
         <v-icon>mdi-plus</v-icon>
         <span class="mx-2">New Post</span>
       </v-btn>
-      <v-btn class="mx-2 pink darken-1" dark>
+      <v-btn class="mx-2 pink darken-1" v-bind="{ [`dark`]: teste }" @click="teste = !teste">
         <v-icon>mdi-heart</v-icon>
-        <span class="mx-2" >Favorites</span>
+        <span class="mx-2 "  >Favorites</span>
       </v-btn>
       <v-btn class="mx-2" text color="primary" to="login">
         <span class="mr-2" >Login</span>
@@ -33,7 +33,7 @@ export default {
   name: "App",
   components: {},
   data: () => ({
-    //
+    teste:false
   })
 };
 </script>
