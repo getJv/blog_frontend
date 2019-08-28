@@ -12,13 +12,15 @@
       </v-btn>
       <v-btn class="mx-2 pink darken-1" v-bind="{ [`dark`]: teste }" @click="teste = !teste">
         <v-icon>mdi-heart</v-icon>
-        <span class="mx-2 "  >Favorites</span>
+        <span class="mx-2">Favorites</span>
       </v-btn>
-      <v-btn class="mx-2" text color="primary" to="login">
-        <span class="mr-2" >Login</span>
-      </v-btn>
-      <v-btn class="mx-2" text color="primary">
+
+      <v-btn v-if="loggedIn" class="mx-2" text color="primary" @click="logout">
         <span class="mr-2">Logout</span>
+      </v-btn>
+
+      <v-btn v-else class="mx-2" text color="primary" to="/login">
+        <span class="mr-2">Login</span>
       </v-btn>
     </v-app-bar>
 
@@ -29,11 +31,22 @@
 </template>
 
 <script>
+import auth from "@/services/auth";
+
 export default {
   name: "App",
-  components: {},
+  methods: {
+    logout() {
+      this.loggedIn = auth.logout();
+      this.$router.push("/");
+    }
+  },
+  updated() {
+    this.loggedIn = auth.loggedIn();
+  },
   data: () => ({
-    teste:false
+    teste: false,
+    loggedIn: auth.loggedIn()
   })
 };
 </script>

@@ -15,13 +15,9 @@
                     v-if="$route.query.redirect && !error"
                     class="grey--text"
                   >Please identify your self</p>
-                  <p v-if="error" class="red--text">Invalid credential. Try again</p>
-                  <v-text-field  v-model="username" label="E-mail" type="text"></v-text-field>
-                  <v-text-field
-                    v-model="password"
-                    label="Password"
-                    type="password"
-                  ></v-text-field>
+                  <p v-if="error" class="red--text">Invalid credentials. Please try again</p>
+                  <v-text-field v-model="username" label="E-mail" type="text"></v-text-field>
+                  <v-text-field v-model="password" label="Password" type="password"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -37,21 +33,21 @@
   </div>
 </template>
 <script>
-//import axios from "axios";
-//import auth from "@/services/auth";
+import axios from "axios";
+import auth from "@/services/auth";
 export default {
   created() {},
   data() {
     return {
-      username: "",
-      password: "",
+      username: "jhonatanvinicius@gmail.com",
+      password: "secret",
       error: false
     };
   },
   methods: {
-    /* login() {
+    login() {
       axios
-        .post(process.env.VUE_APP_BACKEND_PATH + "/api/login", {
+        .post(process.env.VUE_APP_ROOT_API_BACKEND + "/login", {
           username: this.username,
           password: this.password
         })
@@ -62,10 +58,8 @@ export default {
         .catch(error => {
           auth.logout();
           this.error = true;
-          // eslint-disable-next-line
-          console.log(error);
         });
-    } */
+    }
   }
 };
 </script>

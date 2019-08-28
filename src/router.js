@@ -25,13 +25,29 @@ export default new Router({
     {
       path: '/post-form',
       name: 'post-form',
-      component: PostForm
+      component: PostForm,
+      beforeEnter: requireAuth
     },
     {
-      path: '/post',
+      path: '/post/:id',
       name: 'post',
       component: Post
     },
     
   ]
-})
+});
+
+import auth from "@/services/auth";
+
+function requireAuth (to, from, next) {
+    if (!auth.loggedIn()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+      
+    } else {
+      
+      next()
+    }
+}
