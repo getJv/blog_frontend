@@ -14,17 +14,28 @@
         <v-icon :color="isLiked" @click="liked = !liked">mdi-heart</v-icon>
       </v-btn>
       <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id } }">Read</v-btn>
-      <v-btn small text>Editar</v-btn>
+      <v-btn v-if="isLoggedIn" small text>Editar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 import moment from "moment";
+import auth from "@/services/auth";
 export default {
   props: {
     post: {
       required: true,
       type: Object
+    }
+  },
+  data() {
+    return {
+      isLoggedIn: auth.loggedIn()
+    };
+  },
+  watch: {
+    isLoggedIn() {
+      return auth.loggedIn();
     }
   },
   computed: {
@@ -45,7 +56,7 @@ export default {
     },
     sliceText(value) {
       let max = 60;
-      if (value.length > max) {
+      if ((value || "").length > max) {
         value = value.slice(0, max);
         value = value + " ...";
       }

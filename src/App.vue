@@ -10,10 +10,6 @@
         <v-icon>mdi-plus</v-icon>
         <span class="mx-2">New Post</span>
       </v-btn>
-      <v-btn class="mx-2 pink darken-1" v-bind="{ [`dark`]: teste }" @click="teste = !teste">
-        <v-icon>mdi-heart</v-icon>
-        <span class="mx-2">Favorites</span>
-      </v-btn>
 
       <v-btn v-if="loggedIn" class="mx-2" text color="primary" @click="logout">
         <span class="mr-2">Logout</span>
@@ -38,7 +34,7 @@ export default {
   methods: {
     logout() {
       this.loggedIn = auth.logout();
-      this.$router.push("/");
+      this.$router.go("/");
     }
   },
   updated() {
