@@ -5,6 +5,12 @@
         <v-text-field v-model="searchInput" placeholder="Search..." outlined solo clearable flat></v-text-field>
         <center>
           <span v-if="textNotFound" class="pink--text caption">Oh... Nothing found. Please try again</span>
+          <v-alert
+            class="my-3"
+            v-model="alert.status"
+            dismissible
+            :type="alert.type"
+          >{{alert.message}}</v-alert>
         </center>
       </v-col>
     </v-row>
@@ -67,12 +73,20 @@ export default {
   },
   created() {
     this.getPosts();
+    this.alert.status = this.$route.params.alert.status || false;
+    this.alert.type = this.$route.params.alert.type || "warning";
+    this.alert.message = this.$route.params.alert.message || "";
   },
   data() {
     return {
       posts: [],
       searchInput: "",
-      textNotFound: false
+      textNotFound: false,
+      alert: {
+        status: false,
+        type: "warning",
+        message: ""
+      }
     };
   }
 };

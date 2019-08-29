@@ -13,8 +13,8 @@
       <v-btn icon>
         <v-icon :color="isLiked" @click="liked = !liked">mdi-heart</v-icon>
       </v-btn>
-      <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id } }">Read</v-btn>
-      <v-btn v-if="isLoggedIn" small text>Editar</v-btn>
+      <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id.$oid } }">Read</v-btn>
+      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit', params: { id: this.post._id.$oid } }">Editar</v-btn>
     </v-card-actions>
   </v-card>
 </template>

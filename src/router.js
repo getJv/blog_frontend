@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
 import PostForm from '@/views/PostForm'
+import PostFormEdit from '@/views/PostFormEdit'
 import Post from '@/views/Post'
 import Login from '@/views/Login'
 
@@ -26,6 +27,12 @@ export default new Router({
       path: '/post-form',
       name: 'post-form',
       component: PostForm,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/post-form-edit/:id',
+      name: 'post-form-edit',
+      component: PostFormEdit,
       beforeEnter: requireAuth
     },
     {

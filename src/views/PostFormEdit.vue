@@ -31,6 +31,7 @@
                 @input="$v.form.imageUrl.$touch()"
                 @blur="$v.form.imageUrl.$touch()"
               ></v-text-field>
+
               <v-btn small dark color="cyan" class="mb-2" @click="imageSurprise">Change Image</v-btn>
 
               <vue-editor
@@ -56,6 +57,7 @@ import { required, minLength, maxLength, url } from "vuelidate/lib/validators";
 import { VueEditor } from "vue2-editor";
 import auth from "@/services/auth";
 import axios from "axios";
+import qs from "qs";
 export default {
   mixins: [validationMixin],
   components: {
@@ -69,7 +71,34 @@ export default {
     }
   },
   mounted() {
-    this.imageSurprise();
+    axios
+      .get(
+        process.env.VUE_APP_ROOT_API_BACKEND + "/post/" + this.$route.params.id
+      )
+      .then(res => {
+        if (res.data) {
+          this.form = {
+            id: res.data._id,
+            title: res.data.title,
+            text: res.data.content,
+            imageUrl: res.data.image
+          };
+        } else {
+          this.alert.status = true;
+          this.alert.message = 'Post not Found!';
+          this.alert.type = "warning";
+          this.$router.push({
+            name: "home",
+            params: { alert: this.alert }
+          });
+        }
+      })
+      .catch(err => {
+        console.log("deu erro");
+        this.alert.status = true;
+        this.alert.message = err;
+        this.alert.type = "error";
+      });
   },
   data: () => ({
     alert: {
@@ -77,11 +106,7 @@ export default {
       type: "warning",
       message: ""
     },
-    form: {
-      title: "",
-      text: "",
-      imageUrl: ""
-    }
+    form: {}
   }),
   computed: {
     titleErrors() {
@@ -126,23 +151,35 @@ export default {
         this.alert = true;
         return;
       }
-      const fd = new FormData();
-      fd.append("title", this.form.title);
-      fd.append("image", this.form.imageUrl);
-      fd.append("content", this.form.text);
 
       let config = {
-        headers: { Authorization: `Bearer ${auth.getToken()}` }
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${auth.getToken()}`
+        }
+      };
+
+      let requestBody = {
+        _id: this.form.id,
+        title: this.form.title,
+        image: this.form.imageUrl,
+        content: this.form.text
       };
 
       axios
-        .post(process.env.VUE_APP_ROOT_API_BACKEND + "/post", fd, config)
+        .put(
+          process.env.VUE_APP_ROOT_API_BACKEND + "/post/" + this.form.id,
+          qs.stringify(requestBody),
+          config
+        )
         .then(res => {
           this.$router.push({
             name: "home"
           });
         })
         .catch(err => {
+          console.log(err.response.data);
           this.alert.status = true;
           this.alert.message = err;
           this.alert.type = "error";

@@ -6,7 +6,7 @@
         <span class="font-weight-light">Blog</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="mx-2" color="green" dark to="post-form">
+      <v-btn class="mx-2" color="green" dark to="/post-form">
         <v-icon>mdi-plus</v-icon>
         <span class="mx-2">New Post</span>
       </v-btn>
