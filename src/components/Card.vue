@@ -7,7 +7,7 @@
 
     <v-card-text>
       <P class="caption">{{this.post.created_at | formatDate }} by {{this.post.author | userFormat}}</P>
-      {{post.content | sliceText}}
+      <div v-html="$options.filters.sliceText(post.content)"></div> 
     </v-card-text>
     <v-card-actions>
       <v-btn icon>

@@ -138,11 +138,13 @@ export default {
       axios
         .post(process.env.VUE_APP_ROOT_API_BACKEND + "/post", fd, config)
         .then(res => {
+          console.log(res)
           this.$router.push({
             name: "home"
           });
         })
         .catch(err => {
+          console.log(err)
           this.alert.status = true;
           this.alert.message = err;
           this.alert.type = "error";
