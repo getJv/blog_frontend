@@ -7,20 +7,27 @@
 
     <v-card-text>
       <P class="caption">{{this.post.created_at | formatDate }} by {{this.post.author | userFormat}}</P>
-      <div v-html="$options.filters.sliceText(post.content)"></div> 
+      <div v-html="$options.filters.sliceText(post.content)"></div>
     </v-card-text>
     <v-card-actions>
       <v-btn icon>
-        <v-icon :color="isLiked" @click="liked = !liked">mdi-heart</v-icon>
+        <v-icon :color="isLiked" @click="post.liked = !post.liked">mdi-heart</v-icon>
       </v-btn>
       <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id.$oid } }">Read</v-btn>
-      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit', params: { id: this.post._id.$oid } }">Editar</v-btn>
+      <v-btn
+        v-if="isLoggedIn"
+        small
+        text
+        :to="{ name: 'post-form-edit', params: { id: this.post._id.$oid } }"
+      >Editar</v-btn>
+      <v-btn v-if="isLoggedIn" right small text @click="remove">Remove</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 import moment from "moment";
 import auth from "@/services/auth";
+import axios from 'axios'
 export default {
   props: {
     post: {
@@ -38,6 +45,25 @@ export default {
       return auth.loggedIn();
     }
   },
+  methods: {
+    remove() {
+      let config = {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${auth.getToken()}`
+        }
+      };
+
+      axios
+        .delete(
+          process.env.VUE_APP_ROOT_API_BACKEND + "/post/" + this.post._id.$oid,
+          config
+        )
+        .then(() => {
+          this.$emit('refresh-post');
+        })
+    }
+  },
   computed: {
     isLiked() {
       if (this.post.liked) {
@@ -48,7 +74,7 @@ export default {
   },
   filters: {
     formatDate(value) {
-      return moment(value, "DD/MM/YYYY").format("MM/DD/YYYY");
+      return moment(value).format("DD/MM/YYYY");
     },
     userFormat(value) {
       value = (value || "").split("@");

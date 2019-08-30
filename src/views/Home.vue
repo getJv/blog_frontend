@@ -16,7 +16,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="6" md="3" v-for="post in filteredList" :key="post._id.$oid">
-        <card :post="post" />
+        <card :post="post" @refresh-post="getPosts" />
       </v-col>
     </v-row>
   </v-container>
@@ -36,25 +36,22 @@ export default {
     },
     filteredList() {
       let newList = [];
-      let allowedSearchLength = this.searchInput.length > 2;
-
-      if (allowedSearchLength) {
+       let allowedSearchLength = this.searchInput.length > 2;
+      if (allowedSearchLength) { 
         this.posts.filter(item => {
-          if (
-            item.title.toLowerCase().search(this.searchInput.toLowerCase()) > 0
-          ) {
+          if (item.title.toLowerCase().search(this.searchInput.toLowerCase()) >= 0) {
             newList.push(item);
           }
         });
-      }
-      if (newList.length > 0) {
+      } 
+      if (newList.length != 0) {
         this.textNotFound = false;
         return newList;
-      } else if (allowedSearchLength && newList.length < 1) {
+      }  else if (allowedSearchLength && newList.length < 1) {
         this.textNotFound = true;
       } else {
         this.textNotFound = false;
-      }
+      } 
 
       return this.posts;
     }

@@ -34,7 +34,7 @@ export default {
   methods: {
     logout() {
       this.loggedIn = auth.logout();
-      this.$router.go("/");
+      this.$router.push("/");
     }
   },
   updated() {
