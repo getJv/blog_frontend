@@ -7,7 +7,7 @@
         <v-icon :color="isLiked" @click="post.liked = !post.liked">mdi-heart</v-icon>
       </v-btn>
       <v-btn small outlined to="/">Voltar</v-btn>
-      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit',params: { id: post._id } }">Editar</v-btn>
+      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit',params: { id: post.id } }">Editar</v-btn>
     </v-card-actions>
 
     <v-card-text>
@@ -16,7 +16,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn small outlined to="/">Voltar</v-btn>
-      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit',params: { id: post._id } }">Editar</v-btn>
+      <v-btn v-if="isLoggedIn" small text :to="{ name: 'post-form-edit',params: { id: post.id } }">Editar</v-btn>
     </v-card-actions>
   </v-card>
 </template>

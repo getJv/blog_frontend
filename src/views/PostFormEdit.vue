@@ -78,7 +78,7 @@ export default {
       .then(res => {
         if (res.data) {
           this.form = {
-            id: res.data._id,
+            id: res.data.id,
             title: res.data.title,
             text: res.data.content,
             imageUrl: res.data.image
@@ -161,7 +161,7 @@ export default {
       };
 
       let requestBody = {
-        _id: this.form.id,
+        id: this.form.id,
         title: this.form.title,
         image: this.form.imageUrl,
         content: this.form.text

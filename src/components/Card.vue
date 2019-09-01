@@ -13,12 +13,12 @@
       <v-btn icon>
         <v-icon :color="isLiked" @click="post.liked = !post.liked">mdi-heart</v-icon>
       </v-btn>
-      <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id.$oid } }">Read</v-btn>
+      <v-btn small outlined :to="{ name: 'post', params: { id: post.id } }">Read</v-btn>
       <v-btn
         v-if="isLoggedIn"
         small
         text
-        :to="{ name: 'post-form-edit', params: { id: this.post._id.$oid } }"
+        :to="{ name: 'post-form-edit', params: { id: post.id } }"
       >Editar</v-btn>
       <v-btn v-if="isLoggedIn" right small text @click="remove">Remove</v-btn>
     </v-card-actions>
@@ -56,7 +56,7 @@ export default {
 
       axios
         .delete(
-          process.env.VUE_APP_ROOT_API_BACKEND + "/post/" + this.post._id.$oid,
+          process.env.VUE_APP_ROOT_API_BACKEND + "/post/" + this.post.id,
           config
         )
         .then(() => {
