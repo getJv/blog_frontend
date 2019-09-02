@@ -1,24 +1,24 @@
 <template>
   <v-card class="mx-auto my-5" flat outlined>
     <v-img class="white--text" height="200px" :src="post.image">
-      <v-card-title class="align-end fill-height caption">{{this.post.title}}</v-card-title>
+      <v-card-title class="align-end fill-height caption">{{post.title}}</v-card-title>
     </v-img>
-    <v-card-title class="title">{{this.post.title}}</v-card-title>
+    <v-card-title class="title">{{post.title}}</v-card-title>
 
     <v-card-text>
-      <P class="caption">{{this.post.created_at | formatDate }} by {{this.post.author | userFormat}}</P>
+      <P class="caption">{{post.created_at | formatDate }} by {{post.author | userFormat}}</P>
       <div v-html="$options.filters.sliceText(post.content)"></div>
     </v-card-text>
     <v-card-actions>
       <v-btn icon>
         <v-icon :color="isLiked" @click="post.liked = !post.liked">mdi-heart</v-icon>
       </v-btn>
-      <v-btn small outlined :to="{ name: 'post', params: { id: this.post._id.$oid } }">Read</v-btn>
+      <v-btn small outlined :to="{ name: 'post', params: { id: post._id.$oid } }">Read</v-btn>
       <v-btn
         v-if="isLoggedIn"
         small
         text
-        :to="{ name: 'post-form-edit', params: { id: this.post._id.$oid } }"
+        :to="{ name: 'post-form-edit', params: { id: post._id.$oid } }"
       >Editar</v-btn>
       <v-btn v-if="isLoggedIn" right small text @click="remove">Remove</v-btn>
     </v-card-actions>
@@ -74,7 +74,7 @@ export default {
   },
   filters: {
     formatDate(value) {
-      return moment(value).format("DD/MM/YYYY");
+      return moment(value,"YYYY/MM/DD").format("YYYY/MM/DD");
     },
     userFormat(value) {
       value = (value || "").split("@");
